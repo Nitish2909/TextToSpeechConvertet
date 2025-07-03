@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TextToSpeech converter</title>
+    <style>
+     #d1{
+        height: 500px;
+        width: 500px;
+        background-color: greenyellow;
+        border: 3px solid lawngreen;
+        margin: 30px 40px;
+     }
+     h2{
+        text-align: center;
+     }
+     #textarea{
+       width: 80%;
+       height: 200px;
+       margin-left: 45px;
+       border: 2px solid black;
+       border-radius: 10px;
+     }
+     #btn{
+        background-color:orange;
+        font-size: 25px;
+        height:55px;
+        border: 2px solid black;
+        border-radius: 10px;
+        margin-left: 140px;
+        margin-top: 35px;
+     }
+    </style>
+</head>
+<body>
+    <div id="d1">
+      <h1>TEXT TO SPEECH CONVERTER</h1>
+      <br>
+      <h2>ENTER TEXT TO CONVERT </h2>
+      <div>
+        <textarea name="text" id="textarea"></textarea>
+        <p id="error-para"></p>
+      </div>
+      <button id="btn">TEXT CONVERTER</button>
+    </div>
+    <script>
+        
+        let text=document.querySelector("#textarea");
+        let convertButton=document.querySelector("#btn");
+        convertButton.addEventListener("click",() =>{
+         const speechSynth=window.speechSynthesis;
+         const enterText=text.value;
+         const error=document.querySelector("#error-para");
+
+         if(!speechSynth.speaking && enterText.length===0)
+         {
+            error.textContent="nothing to convert";
+            return;
+         }
+         if(!speechSynth.speaking && enterText.length>0)
+         {
+            error.textContent="";
+            const newUtter= new SpeechSynthesisUtterance(enterText);
+            newUtter.onstart = () =>{
+                convertButton.textContent="Sound is Playing....";
+            };
+            newUtter.onend= () => {
+                convertButton.textContent="Play Convert Sound";
+            };
+
+         speechSynth.speak(newUtter);
+         }
+        });
+    </script>
+</body>
+</html>
